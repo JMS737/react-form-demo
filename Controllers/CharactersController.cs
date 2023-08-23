@@ -28,7 +28,7 @@ public class CharactersController : ControllerBase
     }
 
     [HttpPost]
-    public Character Post(Character character)
+    public Character Post([FromBody] Character character)
     {
         return _characterRepos.Add(character);
     }
