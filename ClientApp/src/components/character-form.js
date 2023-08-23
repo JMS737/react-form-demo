@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function CharacterForm() {
+export default function CharacterForm({ onCreated }) {
     const [inputs, setInputs] = useState({});
 
     const handleChange = (event) => {
@@ -15,8 +15,12 @@ export default function CharacterForm() {
         const response = await fetch("characters", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ character: inputs })
+            body: JSON.stringify( inputs )
         });
+
+        if (response.status >= 200 && response.status < 300) {
+            onCreated();
+        }
     }
 
     return (
@@ -63,18 +67,19 @@ export default function CharacterForm() {
                     <label className="form-label" for="characterRace">Race</label>
                     <select
                         className="form-select"
-                        name="race" id="characterRace"
+                        name="race"
+                        id="characterRace"
                         type="text"
                         value={inputs.race || ""}
                         onChange={handleChange}
                     >
                         <option selected hidden>Select a race...</option>
-                        <option value={0}>Human</option>
-                        <option value={1}>Elf</option>
-                        <option value={2}>Halfling</option>
-                        <option value={3}>Dwarf</option>
-                        <option value={4}>Orc</option>
-                        <option value={5}>Gnome</option>
+                        <option value="human">Human</option>
+                        <option value="elf">Elf</option>
+                        <option value="halfling">Halfling</option>
+                        <option value="dwarf">Dwarf</option>
+                        <option value="orc">Orc</option>
+                        <option value="gnome">Gnome</option>
                     </select>
                 </div>
             </div>
