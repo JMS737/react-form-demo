@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using react_form_demo;
 using react_form_demo.Services;
 
@@ -5,9 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped((_) => DebugTools.CreateCharacterRepos());
+builder.Services.AddSingleton((_) => DebugTools.CreateCharacterRepos());
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 var app = builder.Build();
 
